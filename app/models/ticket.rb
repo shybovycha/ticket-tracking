@@ -43,8 +43,8 @@ class Ticket < ActiveRecord::Base
 
     def self.status_options_available
         [ 
-            [ 'Waiting for staff', :waiting_for_staff ], 
-            [ 'Waiting for customer', :waiting_for_customer ], 
+            [ 'Waiting for staff response', :waiting_for_staff ], 
+            [ 'Waiting for customer response', :waiting_for_customer ], 
             [ 'On hold', :on_hold ],
             [ 'Cancelled', :cancelled ],
             [ 'Completed', :completed ] 
