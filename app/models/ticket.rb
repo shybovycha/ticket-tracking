@@ -8,7 +8,9 @@ class Ticket < ActiveRecord::Base
     validates :url_key, :presence => true, :format => /[A-Z]{3,}-\d+/i, :uniqueness => true
 
     scope :unassigned, -> { where(:assignee_id => nil) }
-    scope :opened, -> { where(["status NOT IN (?)", [ :cancelled, :completed ]]) }
+    scope :open, -> { where(["status NOT IN (?)", [ :cancelled, :completed ]]) }
+    scope :closed, -> { where(["status IN (?)", [:closed, :completed]]) }
+    scope :on_hold, -> { where(:status => :on_hold) }
     scope :my, -> (email) { where(:assignee_id => User.find_by_email(email).id) }
 
     has_paper_trail

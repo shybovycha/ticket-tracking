@@ -1,0 +1,42 @@
+.ui.form.attached.message
+    .header
+        Tickets list
+
+.ui.attached.segment
+    .ui.secondary.menu
+        - current_filter = params[:filter]
+
+        = link_to 'Assigned to myself', url_for(:controller => :tickets, :action => :index, :filter => 'my'), :class => "item #{ "active" if current_filter == "my" }"
+
+        = link_to 'Unassigned', url_for(:controller => :tickets, :action => :index, :filter => 'unassigned'), :class => "item #{ "active" if current_filter == "unassigned" }"
+
+        = link_to 'Open', url_for(:controller => :tickets, :action => :index, :filter => 'open'), :class => "item #{ "active" if current_filter == "open" }"
+
+        = link_to 'On hold', url_for(:controller => :tickets, :action => :index, :filter => 'on_hold'), :class => "item #{ "active" if current_filter == "on_hold" }"
+
+        = link_to 'Closed', url_for(:controller => :tickets, :action => :index, :filter => 'closed'), :class => "item #{ "active" if current_filter == "closed" }"
+
+.ui.attached.bottom.segment
+    %table.ui.sortable.table.segment
+        %thead
+            %tr
+                %th
+                    Title
+
+                %th
+                    Status
+
+                %th
+                    Assignee
+
+        %tbody
+            - @tickets.each do |ticket|
+                %tr
+                    %td
+                        = link_to ticket.title, ticket
+
+                    %td.warning
+                        = ticket.status_string
+
+                    %td
+                        = ticket.assignee.present? ? ticket.assignee.email : 'nobody'

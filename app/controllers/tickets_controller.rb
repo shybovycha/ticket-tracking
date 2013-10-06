@@ -5,7 +5,9 @@ class TicketsController < ApplicationController
     # GET /tickets
     def index
         @tickets = case params[:filter]
-            when 'opened' then Ticket.opened
+            when 'closed' then Ticket.closed
+            when 'on_hold' then Ticket.on_hold
+            when 'open' then Ticket.open
             when 'unassigned' then Ticket.unassigned
             when 'my' then Ticket.my(current_user.email)
             else Ticket.all

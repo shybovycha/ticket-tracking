@@ -15,5 +15,8 @@
  *= require_tree './semantic/modules/'
  *= require 'semantic/semantic'
  *= require 'font-awesome'
- *= require_tree .
  */
+
+body {
+    font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
