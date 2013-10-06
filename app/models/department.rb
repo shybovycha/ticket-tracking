@@ -1,5 +1,6 @@
 class Department < ActiveRecord::Base
     has_many :users
+    has_many :tickets
 
     validates :title, :presence => true
     validates :url_key, :presence => true, :format => /[A-Z]{3,}/i

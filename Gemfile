@@ -24,3 +24,8 @@ gem 'jquery-rails'
 
 gem 'haml'
 gem 'devise'
+
+group :development do
+    gem 'pry'
+    gem 'pry-debugger'
+end

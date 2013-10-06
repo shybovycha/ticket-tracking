@@ -1,0 +1,72 @@
+.notice
+    = notice 
+
+%p
+    %strong
+        Title:
+
+    = @ticket.title 
+
+%p
+    %strong
+        Details:
+    
+    = @ticket.body
+
+%p
+    %strong
+        Status:
+    
+    %strong{ :style => 'color: #0000be' }
+        = @ticket.status_string
+
+%p
+    %strong
+        Assignee:
+
+    - if @ticket.assignee.present?
+        = @ticket.assignee.email
+    - else
+        %strong{ :style => 'color: red' }
+            Nobody
+
+%p
+    %strong
+        Comments:
+
+    - @ticket.comments.each do |comment|
+        %p.comment-body
+            = comment.body
+        %p
+            %strong
+                by
+            %span.comment-author
+                = comment.user.email
+            %strong
+                at
+            %span.comment-created-at
+                = l comment.created_at
+
+- if user_signed_in?
+    = form_for(@comment) do |f|
+        = hidden_field_tag :ticket_url_key, @ticket.url_key
+
+        = f.label :body, 'Your comment:'
+        %br
+        = f.text_area :body
+
+        %br
+
+        = f.submit
+
+    = form_for(@ticket) do |f|
+        = f.select :status, Ticket.status_options_available
+        = f.select :assignee_id, User.all.map { |u| [ u.email, u.id ] }
+
+        = f.submit
+
+    = link_to 'Take ownership', take_ownership_path(@ticket)
+
+    = link_to 'Edit', edit_ticket_path(@ticket)
+    |
+    = link_to 'Back', tickets_path

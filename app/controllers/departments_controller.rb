@@ -1,5 +1,6 @@
 class DepartmentsController < ApplicationController
-  before_action :set_department, only: [:show, :edit, :update, :destroy]
+  before_filter :check_authentication, :only => [:index, :edit, :update, :destroy]
+  before_action :set_department, :only => [:show, :edit, :update, :destroy]
 
   # GET /departments
   def index
@@ -46,6 +47,10 @@ class DepartmentsController < ApplicationController
   end
 
   private
+    def check_authentication
+      redirect_to '/' unless user_signed_in?
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_department
       @department = Department.find(params[:id])

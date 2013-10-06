@@ -7,6 +7,8 @@ class CreateTickets < ActiveRecord::Migration
       t.string :status, :null => false
       t.string :reporter_email, :null => false
       t.string :reporter_name, :null => false
+      t.integer :department_id, :null => false
+      t.integer :assignee_id, :null => true
 
       t.timestamps
     end

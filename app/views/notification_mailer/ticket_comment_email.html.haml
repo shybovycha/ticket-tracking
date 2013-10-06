@@ -1,0 +1,17 @@
+%h1
+    A reply has been posted on your issue
+
+A reply on issue 
+%span{ :style => 'font-style: italic' }
+    = @ticket.title
+has been added by 
+%strong
+    = @comment.user.email
+at
+%strong
+    = l @comment.created_at
+
+%p
+    = @comment.body
+
+= link_to 'View it here', comment_path(@comment)

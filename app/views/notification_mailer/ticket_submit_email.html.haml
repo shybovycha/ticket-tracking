@@ -1,0 +1,9 @@
+%h1
+    Issue ##{ @ticket.url_key } was submit
+
+%span
+    Your 
+    %a{ :href => ticket_path(@ticket) }
+        issue
+    , #{ @ticket.title }
+    has been submit
