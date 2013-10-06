@@ -25,6 +25,8 @@ gem 'jquery-rails'
 gem 'haml'
 gem 'devise'
 
+gem 'paper_trail', '>= 3.0.0.beta1'
+
 group :development do
     gem 'pry'
     gem 'pry-debugger'

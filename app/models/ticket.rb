@@ -11,6 +11,8 @@ class Ticket < ActiveRecord::Base
     scope :opened, -> { where(["status NOT IN (?)", [ :cancelled, :completed ]]) }
     scope :my, -> (email) { where(:assignee_id => User.find_by_email(email).id) }
 
+    has_paper_trail
+
     # validates :status, :inclusion => { :in => statuses_available }
 
     def assignee
