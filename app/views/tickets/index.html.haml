@@ -6,6 +6,8 @@
     .ui.secondary.menu
         - current_filter = params[:filter]
 
+        = link_to 'All', tickets_path, :class => "item #{ 'active' if current_filter.blank? }"
+
         = link_to 'Assigned to myself', url_for(:controller => :tickets, :action => :index, :filter => 'my'), :class => "item #{ "active" if current_filter == "my" }"
 
         = link_to 'Unassigned', url_for(:controller => :tickets, :action => :index, :filter => 'unassigned'), :class => "item #{ "active" if current_filter == "unassigned" }"

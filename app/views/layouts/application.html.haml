@@ -16,6 +16,11 @@
                 %i.mail.icon
                 Submit ticket
 
+            - if user_signed_in?
+                %a.item{ :href => tickets_path }
+                    %i.tags.icon
+                    All tickets
+
             .right.menu
                 - if user_signed_in?
                     %a.item{ :href => destroy_user_session_path }
