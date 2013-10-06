@@ -6,75 +6,83 @@
 
         = notice
 
-.ui.attached.message
-    .content
+- if @ticket.blank?
+    .ui.error.message
+        %i.close.icon
         .header
-            = @ticket.title
+            Whoops...
 
-    %p
-        = @ticket.body
+        Seems that such ticket does not exist! Sorry!
+-else
+    .ui.attached.message
+        .content
+            .header
+                = @ticket.title
 
-    %div
-        .ui.red.label
-            %i.code.icon
-            = @ticket.status_string
+        %p
+            = @ticket.body
 
-        .ui.purple.label
-            %i.bug.icon
-            - if @ticket.assignee.present?
-                = @ticket.assignee.email
-            - else
-                %strong{ :style => 'color: red' }
-                    Nobody
+        %div
+            .ui.red.label
+                %i.code.icon
+                = @ticket.status_string
 
-        .ui.green.label
-            %i.user.icon
-            = @ticket.reporter_name
+            .ui.purple.label
+                %i.bug.icon
+                - if @ticket.assignee.present?
+                    = @ticket.assignee.email
+                - else
+                    %strong{ :style => 'color: red' }
+                        Nobody
 
-        .ui.green.label
-            %i.time.icon
-            = l @ticket.created_at
+            .ui.green.label
+                %i.user.icon
+                = @ticket.reporter_name
+
+            .ui.green.label
+                %i.time.icon
+                = l @ticket.created_at
 
 
-- if user_signed_in?
-    .ui.attached.form.fluid.segment
-        .two.fields
-            = form_for(@ticket) do |f|
-                .inline.field
-                    %label
-                        Status
+    - if user_signed_in?
+        .ui.attached.form.fluid.segment
+            .two.fields
+                = form_for(@ticket) do |f|
+                    .inline.field
+                        %label
+                            Status
 
-                    = f.select :status, Ticket.status_options_available
+                        = f.select :status, Ticket.status_options_available
 
-                .inline.field
-                    %label
-                        Assignee
-                
-                    = f.select :assignee_id, User.all.map { |u| [ u.email, u.id ] }
+                    .inline.field
+                        %label
+                            Assignee
+                    
+                        = f.select :assignee_id, User.all.map { |u| [ u.email, u.id ] }
 
-                = f.submit 'Update ticket', :class => 'ui blue submit button'
+                    = f.submit 'Update ticket', :class => 'ui blue submit button'
 
-.ui.attached.fluid.segment
-    - @ticket.comments.each do |comment|
-        .ui.secondary.segment
-            %p
-                = comment.body
+    .ui.attached.fluid.segment
+        - @ticket.comments.each do |comment|
+            .ui.secondary.segment
+                %p
+                    = comment.body
 
-            %div
-                .ui.green.label
-                    %i.user.icon
-                    = comment.author.email
+                %div
+                    .ui.green.label
+                        %i.user.icon
+                        = comment.author.email
 
-                .ui.green.label
-                    %i.time.icon
-                    = l comment.created_at
+                    .ui.green.label
+                        %i.time.icon
+                        = l comment.created_at
 
-- if user_signed_in?                
-    .ui.attached.form.fluid.segment
-        .field
-            = form_for(@comment) do |f|
-                = hidden_field_tag :ticket_url_key, @ticket.url_key
+    - if user_signed_in?                
+        .ui.attached.form.fluid.segment
+            .field
+                = form_for(@comment) do |f|
+                    = hidden_field_tag :ticket_url_key, @ticket.url_key
 
-                = f.text_area :body, :placeholder => 'Your comment'
+                    = f.text_area :body, :placeholder => 'Your comment'
 
-                = f.submit 'Reply', :class => 'ui blue submit button'
+                    = f.submit 'Reply', :class => 'ui blue submit button'
