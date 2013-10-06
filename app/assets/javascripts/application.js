@@ -12,4 +12,15 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
+//= require semantic/modules/behavior/api
+//= require semantic/modules/behavior/state
+//= require semantic/modules/checkbox
+//= require semantic/modules/dimmer
+//= require semantic/modules/dropdown
+//= require semantic/modules/modal
+//= require semantic/modules/popup
+//= require semantic/modules/rating
+//= require semantic/modules/sidebar
+//= require semantic/modules/tab
+//= require semantic/modules/transition
+//= require semantic

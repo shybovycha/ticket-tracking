@@ -1,72 +1,80 @@
-.notice
-    = notice 
+- if notice.present?
+    .ui.info.message
+        %i.close.icon
+        .header
+            Note
 
-%p
-    %strong
-        Title:
+        = notice
 
-    = @ticket.title 
+.ui.attached.message
+    .content
+        .header
+            = @ticket.title
 
-%p
-    %strong
-        Details:
-    
-    = @ticket.body
+    %p
+        = @ticket.body
 
-%p
-    %strong
-        Status:
-    
-    %strong{ :style => 'color: #0000be' }
-        = @ticket.status_string
+    %div
+        .ui.red.label
+            %i.code.icon
+            = @ticket.status_string
 
-%p
-    %strong
-        Assignee:
+        .ui.purple.label
+            %i.bug.icon
+            - if @ticket.assignee.present?
+                = @ticket.assignee.email
+            - else
+                %strong{ :style => 'color: red' }
+                    Nobody
 
-    - if @ticket.assignee.present?
-        = @ticket.assignee.email
-    - else
-        %strong{ :style => 'color: red' }
-            Nobody
+        .ui.green.label
+            %i.user.icon
+            = @ticket.reporter_name
 
-%p
-    %strong
-        Comments:
+        .ui.green.label
+            %i.time.icon
+            = l @ticket.created_at
 
-    - @ticket.comments.each do |comment|
-        %p.comment-body
-            = comment.body
-        %p
-            %strong
-                by
-            %span.comment-author
-                = comment.user.email
-            %strong
-                at
-            %span.comment-created-at
-                = l comment.created_at
 
 - if user_signed_in?
-    = form_for(@comment) do |f|
-        = hidden_field_tag :ticket_url_key, @ticket.url_key
+    .ui.attached.form.fluid.segment
+        .two.fields
+            = form_for(@ticket) do |f|
+                .inline.field
+                    %label
+                        Status
 
-        = f.label :body, 'Your comment:'
-        %br
-        = f.text_area :body
+                    = f.select :status, Ticket.status_options_available
 
-        %br
+                .inline.field
+                    %label
+                        Assignee
+                
+                    = f.select :assignee_id, User.all.map { |u| [ u.email, u.id ] }
 
-        = f.submit
+                = f.submit 'Update ticket', :class => 'ui blue submit button'
 
-    = form_for(@ticket) do |f|
-        = f.select :status, Ticket.status_options_available
-        = f.select :assignee_id, User.all.map { |u| [ u.email, u.id ] }
+.ui.attached.fluid.segment
+    - @ticket.comments.each do |comment|
+        .ui.secondary.segment
+            %p
+                = comment.body
 
-        = f.submit
+            %div
+                .ui.green.label
+                    %i.user.icon
+                    = comment.author.email
 
-    = link_to 'Take ownership', take_ownership_path(@ticket)
+                .ui.green.label
+                    %i.time.icon
+                    = l comment.created_at
 
-    = link_to 'Edit', edit_ticket_path(@ticket)
-    |
-    = link_to 'Back', tickets_path
+- if user_signed_in?                
+    .ui.attached.form.fluid.segment
+        .field
+            = form_for(@comment) do |f|
+                = hidden_field_tag :ticket_url_key, @ticket.url_key
+
+                = f.text_area :body, :placeholder => 'Your comment'
+
+                = f.submit 'Reply', :class => 'ui blue submit button'

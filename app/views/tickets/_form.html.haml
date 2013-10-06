@@ -1,33 +1,49 @@
-= form_for(@ticket) do |f| 
-  - if @ticket.errors.any?
-    #error_explanation
-      %h2
-        #{ pluralize(@ticket.errors.count, "error") } prohibited this ticket from being saved:
+.ui.form.bottom.attached.segment
+    = form_for(@ticket) do |f| 
+        - if @ticket.errors.any?
+            .ui.error.message
+                %i.close.icon
+                .header
+                    Whoops...
 
-      %ul
-        - @ticket.errors.full_messages.each do |msg|
-          %li
-            = msg
+                %ul
+                    - @ticket.errors.full_messages.each do |msg|
+                        %li
+                            = msg
 
-  .field
-    = f.label :reporter_name
-    = f.text_field :reporter_name
+        .field
+            .ui.left.labeled.icon.input
+                = f.text_field :reporter_name, :placeholder => 'Your name'
 
-  .field
-    = f.label :reporter_email
-    = f.text_field :reporter_email
+                %i.user.icon
+                .ui.corner.label
+                    %i.icon.asterisk
 
-  .field
-    = label_tag :department, 'Status'
-    = select_tag :department, options_from_collection_for_select(Department.all, 'url_key', 'title')
+        .field
+            .ui.left.labeled.icon.input
+                = f.text_field :reporter_email, :placeholder => 'Your email'
 
-  .field
-    = f.label :title
-    = f.text_field :title
+                %i.mail.icon
+                .ui.corner.label
+                    %i.icon.asterisk
 
-  .field
-    = f.label :body
-    = f.text_area :body
+        .field
+            = label_tag :department, 'Department'
+            = select_tag :department, options_from_collection_for_select(Department.all, 'url_key', 'title')
 
-  .actions
-    = f.submit
+        .field
+            .ui.left.labeled.input
+                = f.text_field :title, :placeholder => "Name your ticket"
+
+                .ui.corner.label
+                    %i.icon.asterisk
+
+        .field
+            .ui.left.labeled.input
+                = f.text_area :body, :placeholder => "Describe what's happening"
+
+                .ui.corner.label
+                    %i.icon.asterisk
+
+        .actions
+            = f.submit :class => 'ui blue submit button'

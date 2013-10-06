@@ -9,5 +9,11 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
+ *= require_tree './semantic/elements/'
+ *= require_tree './semantic/collections/'
+ *= require_tree './semantic/views/'
+ *= require_tree './semantic/modules/'
+ *= require 'semantic/semantic'
+ *= require 'font-awesome'
  *= require_tree .
  */

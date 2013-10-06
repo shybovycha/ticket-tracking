@@ -1,0 +1,29 @@
+!!! 5
+%html
+    %head
+        %title
+            TicketTracking
+        
+        = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+        = javascript_include_tag "application", "data-turbolinks-track" => true 
+        
+        = csrf_meta_tags 
+
+    %body
+
+        .ui.menu
+            %a.item{ :href => '/' }
+                %i.mail.icon
+                Submit ticket
+
+            .right.menu
+                - if user_signed_in?
+                    %a.item{ :href => destroy_user_session_path }
+                        %i.users.icon
+                        Sign out
+                - else
+                    %a.item{ :href => new_user_session_path }
+                        %i.users.icon
+                        Sign in
+
+        = yield
